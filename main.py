@@ -49,6 +49,13 @@ while True:
     ball.x += ball_speed_x
     ball.y += ball_speed_y
 
+    # detectar colicion con los borders de la pantalla de juego.
+    if ball.bottom >= screen_height or ball.top <= 0:
+        ball_speed_y *= -1
+
+    if ball.right >= screen_width or ball.left <= 0:
+        ball_speed_x *= -1
+
     # dibujar los ojetos del juego.
     # 1. screen: superficie donde queremos dibujar el objeto.
     # 2. ball_color: es el color que lre queremos dar al objeto.
