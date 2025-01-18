@@ -48,6 +48,7 @@ while True:
     pygame.draw.ellipse(screen, ball_color, ball)
     pygame.draw.rect(screen, cpu_color, cpu)
     pygame.draw.rect(screen, player_color, player)
+    pygame.draw.aaline(screen, 'white', (screen_width/2, 0), (screen_width/2, screen_height))
 
 
     # actualizamos la pantalla.
