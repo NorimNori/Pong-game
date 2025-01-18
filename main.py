@@ -3,6 +3,28 @@ import pygame, sys
 # inicializa todos los módulos de Pygame.
 pygame.init()
 
+def animate_ball():
+    global ball_speed_x, ball_speed_y
+    # mueve las coordenadas en 6px.
+    ball.x += ball_speed_x
+    ball.y += ball_speed_y
+
+    # detectar colicion con los borders de la pantalla de juego.
+    if ball.bottom >= screen_height or ball.top <= 0:
+        ball_speed_y *= -1
+
+    if ball.right >= screen_width or ball.left <= 0:
+        ball_speed_x *= -1
+
+def animate_player():
+    player.y += player_speed
+
+    if player.top <= 0:
+        player.top = 0
+
+    if player.bottom >= screen_height:
+        player.bottom = screen_height
+
 # establecer tamaño de la pantalla de juego.
 screen_width = 1200
 screen_height = 800
@@ -33,8 +55,9 @@ player.midright = (screen_width, screen_height/2)
 player_color = (191, 0, 255) # Púrpura neón
 
 # velocidad en cada eje
-ball_speed_x = 6
-ball_speed_y = 6
+ball_speed_x = 8
+ball_speed_y = 8
+player_speed = 0
 
 while True:
     # gestión de eventos.
@@ -44,17 +67,19 @@ while True:
             # Detenemos el programa.
             pygame.quit()
             sys.exit()
-    
-    # mueve las coordenadas en 6px.
-    ball.x += ball_speed_x
-    ball.y += ball_speed_y
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                player_speed = -8
+            if event.key == pygame.K_DOWN:
+                player_speed = 8
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                player_speed = 0
+            if event.key == pygame.K_DOWN:
+                player_speed = 0
 
-    # detectar colicion con los borders de la pantalla de juego.
-    if ball.bottom >= screen_height or ball.top <= 0:
-        ball_speed_y *= -1
-
-    if ball.right >= screen_width or ball.left <= 0:
-        ball_speed_x *= -1
+    animate_ball()
+    animate_player()
 
     # dibujar los ojetos del juego.
     # 1. screen: superficie donde queremos dibujar el objeto.
