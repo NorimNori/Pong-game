@@ -1,0 +1,43 @@
+import pygame, sys
+
+# inicializa todos los módulos de Pygame.
+pygame.init()
+
+# establecer tamaño de la pantalla de juego.
+screen_width = 1200
+screen_height = 800
+
+screen = pygame.display.set_mode((screen_width, screen_height))
+# titulo que aparece en la ventana del juego.
+pygame.display.set_caption("Pong Pong Wars!!")
+
+# inicializamos el reloj para controlar la velocidad del bucle principal.
+clock = pygame.time.Clock()
+
+# cuadrado de 30x30 px. 
+            #     (x, y, width, height)
+ball = pygame.Rect(0,0,30,30)
+# centramos la pelota en la pantalla utilizando las dimensiones
+# ball.center define el centro del rectángulo en una tupla (x, y)
+ball.center = (screen_width/2, screen_height/2)
+ball_color = (255, 255, 0)  # Amarillo neón
+
+while True:
+    # gestión de eventos.
+    for event in pygame.event.get():
+        # QUIT: clic en cerrar ventana.
+        if event.type == pygame.QUIT:
+            # Detenemos el programa.
+            pygame.quit()
+            sys.exit()
+
+    # dibujar los ojetos del juego.
+    # 1. screen: superficie donde queremos dibujar el objeto.
+    # 2. ball_color: es el color que lre queremos dar al objeto.
+    # 3. ball: circulo que queremos dibujar.
+    pygame.draw.ellipse(screen, ball_color, ball)
+
+    # actualizamos la pantalla.
+    pygame.display.update()
+    # limitamos la cantidad de cuadros por segundo (FPS) a 60.
+    clock.tick(60)
