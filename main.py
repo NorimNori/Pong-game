@@ -22,6 +22,16 @@ ball = pygame.Rect(0,0,30,30)
 ball.center = (screen_width/2, screen_height/2)
 ball_color = (255, 255, 0)  # Amarillo neón
 
+cpu = pygame.Rect(0,0,20,100)
+# ubicamos el cpu a mitad del eje y.
+cpu.centery = screen_height/2
+cpu_color = (48, 213, 200) # Turquesa neón
+
+player = pygame.Rect(0,0,20,100)
+# ubicamos el jugador al centro de la orilla derecha de la ventana.
+player.midright = (screen_width, screen_height/2)
+player_color = (191, 0, 255) # Púrpura neón
+
 while True:
     # gestión de eventos.
     for event in pygame.event.get():
@@ -36,6 +46,9 @@ while True:
     # 2. ball_color: es el color que lre queremos dar al objeto.
     # 3. ball: circulo que queremos dibujar.
     pygame.draw.ellipse(screen, ball_color, ball)
+    pygame.draw.rect(screen, cpu_color, cpu)
+    pygame.draw.rect(screen, player_color, player)
+
 
     # actualizamos la pantalla.
     pygame.display.update()
