@@ -50,18 +50,18 @@ def animate_player():
         player.bottom = screen_height
 
 def animate_cpu():
-    global cpu_speed, cpu_bottom
+    global cpu_speed
     cpu.y += cpu_speed
 
-    if ball.centery <= cpu.centery:
+    if ball.centery <= cpu.centery - 10:
         cpu_speed = -8
-    if ball.centery >= cpu.centery:
+    if ball.centery >= cpu.centery + 10:
         cpu_speed = 8
     
     if cpu.top <= 0:
         cpu.top = 0
     if cpu.bottom >= screen_height:
-        cpu_bottom = screen_height
+        cpu.bottom = screen_height
 
 # establecer tamaño de la pantalla de juego.
 screen_width = 1280
@@ -132,8 +132,8 @@ while True:
     # evita que la pelota deje una "estela" al moverse.
     screen.fill('black')
 
-    cpu_score_surface = score_font.render(str(cpu_points), True, "white")
-    player_score_surface = score_font.render(str(player_points), True, "white")
+    cpu_score_surface = score_font.render(str(cpu_points), True, cpu_color)
+    player_score_surface = score_font.render(str(player_points), True, player_color)
     screen.blit(cpu_score_surface, (screen_width/4, 20))
     screen.blit(player_score_surface, (3*screen_width/4, 20))
 
