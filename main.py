@@ -25,8 +25,23 @@ def animate_player():
     if player.bottom >= screen_height:
         player.bottom = screen_height
 
+def animate_cpu():
+    global cpu_speed, cpu_bottom
+    cpu.y += cpu_speed
+
+    if ball.centery <= cpu.centery:
+        cpu_speed = -8
+    if ball.centery >= cpu.centery:
+        cpu_speed = 8
+    
+    if cpu.top <= 0:
+        cpu.top = 0
+    if cpu.bottom >= screen_height:
+        cpu_bottom = screen_height
+
+
 # establecer tamaño de la pantalla de juego.
-screen_width = 1200
+screen_width = 1280
 screen_height = 800
 
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -58,6 +73,7 @@ player_color = (191, 0, 255) # Púrpura neón
 ball_speed_x = 8
 ball_speed_y = 8
 player_speed = 0
+cpu_speed = 6
 
 while True:
     # gestión de eventos.
@@ -80,6 +96,7 @@ while True:
 
     animate_ball()
     animate_player()
+    animate_cpu()
 
     # dibujar los ojetos del juego.
     # 1. screen: superficie donde queremos dibujar el objeto.
