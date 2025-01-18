@@ -16,6 +16,10 @@ def animate_ball():
     if ball.right >= screen_width or ball.left <= 0:
         ball_speed_x *= -1
 
+    # detecta la colision de la pelota con el pad.
+    if ball.colliderect(player) or ball.colliderect(cpu):
+        ball_speed_x *= -1
+
 def animate_player():
     player.y += player_speed
 
