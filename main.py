@@ -32,6 +32,10 @@ player = pygame.Rect(0,0,20,100)
 player.midright = (screen_width, screen_height/2)
 player_color = (191, 0, 255) # Púrpura neón
 
+# velocidad en cada eje
+ball_speed_x = 6
+ball_speed_y = 6
+
 while True:
     # gestión de eventos.
     for event in pygame.event.get():
@@ -40,11 +44,18 @@ while True:
             # Detenemos el programa.
             pygame.quit()
             sys.exit()
+    
+    # mueve las coordenadas en 6px.
+    ball.x += ball_speed_x
+    ball.y += ball_speed_y
 
     # dibujar los ojetos del juego.
     # 1. screen: superficie donde queremos dibujar el objeto.
     # 2. ball_color: es el color que lre queremos dar al objeto.
     # 3. ball: circulo que queremos dibujar.
+    
+    # evita que la pelota deje una "estela" al moverse.
+    screen.fill('black')
     pygame.draw.ellipse(screen, ball_color, ball)
     pygame.draw.rect(screen, cpu_color, cpu)
     pygame.draw.rect(screen, player_color, player)
