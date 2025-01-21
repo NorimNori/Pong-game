@@ -63,6 +63,14 @@ def animate_cpu():
     if cpu.bottom >= screen_height:
         cpu.bottom = screen_height
 
+def draw_dotted_line(surface, color, start_pos, end_pos, width, dash_length=10):
+    x1, y1 = start_pos
+    x2, y2 = end_pos
+
+    if x1 == x2:
+        for y in range(y1, y2, dash_length * 2):
+            pygame.draw.line(surface, color, (x1, y), (x1, y + dash_length), width)
+
 # establecer tamaño de la pantalla de juego.
 screen_width = 1280
 screen_height = 800
@@ -82,14 +90,14 @@ ball = pygame.Rect(0,0,30,30)
 ball.center = (screen_width/2, screen_height/2)
 ball_color = (255, 255, 0)  # Amarillo neón
 
-cpu = pygame.Rect(0,0,20,100)
+cpu = pygame.Rect(10, screen_height / 2 - 70, 20, 140)
 # ubicamos el cpu a mitad del eje y.
 cpu.centery = screen_height/2
 cpu_color = (48, 213, 200) # Turquesa neón
 
-player = pygame.Rect(0,0,20,100)
+player = pygame.Rect(screen_width, screen_height / 2 - 70, 20, 140)
 # ubicamos el jugador al centro de la orilla derecha de la ventana.
-player.midright = (screen_width, screen_height/2)
+player.midright = (screen_width - 10, screen_height/2)
 player_color = (191, 0, 255) # Púrpura neón
 
 # velocidad en cada eje
@@ -100,7 +108,7 @@ cpu_speed = 6
 
 cpu_points, player_points = 0, 0
 
-score_font = pygame.font.Font(None, 100)
+score_font = pygame.font.Font("./Jersey10-Regular.ttf", 140)
 while True:
     # gestión de eventos.
     for event in pygame.event.get():
@@ -136,11 +144,14 @@ while True:
     player_score_surface = score_font.render(str(player_points), True, player_color)
     screen.blit(cpu_score_surface, (screen_width/4, 20))
     screen.blit(player_score_surface, (3*screen_width/4, 20))
+    
 
-    pygame.draw.ellipse(screen, ball_color, ball)
+    pygame.draw.rect(screen, ball_color, ball)
     pygame.draw.rect(screen, cpu_color, cpu)
     pygame.draw.rect(screen, player_color, player)
-    pygame.draw.aaline(screen, 'white', (screen_width/2, 0), (screen_width/2, screen_height))
+    # Dibujar la línea punteada en el centro del campo
+    draw_dotted_line(screen, "white", (screen_width // 2, 0), (screen_width // 2, screen_height), 5)
+
 
 
     # actualizamos la pantalla.
