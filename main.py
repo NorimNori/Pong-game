@@ -6,7 +6,8 @@ pygame.init()
 def reset_ball():
     global ball_speed_x, ball_speed_y
     ball.x = screen_width/2 - 10
-    ball.y = random.randint(10, 100)
+    ## reseteo aleatorio de la pelota en el eje y
+    ball.y = random.randint(0, screen_height - ball.height)
     ball_speed_x *= random.choice([-1, 1])
     ball_speed_y *= random.choice([-1, 1])
 
@@ -78,7 +79,7 @@ def draw_dotted_line(surface, color, start_pos, end_pos, width, dash_length=10):
 
 def increase_speed():
     global ball_speed_x, ball_speed_y, cpu_speed, last_speed_update
-    
+
     ## Tiempo actual en milisegundos
     current_time = pygame.time.get_ticks()
     if current_time - last_speed_update >= speed_increment_interval:
@@ -107,6 +108,7 @@ clock = pygame.time.Clock()
 # Elementos del juego.
 ## cuadrado de 30x30px (x, y, width, height)
 ball = pygame.Rect(0,0,30,30)
+ball.center = (screen_width/2, screen_height/2)
 player = pygame.Rect(screen_width, screen_height / 2 - 70, 20, 140)
 player.midright = (screen_width - 10, screen_height/2)
 cpu = pygame.Rect(10, screen_height / 2 - 70, 20, 140)
