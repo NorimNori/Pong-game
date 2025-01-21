@@ -2,6 +2,7 @@ import pygame, sys, random
 
 # inicializa todos los módulos de Pygame.
 pygame.init()
+pygame.mixer.init()
 
 def reset_ball():
     global ball_speed_x, ball_speed_y
@@ -18,7 +19,8 @@ def point_won(winner):
         cpu_points += 1
     if winner == "player":
         player_points += 1 
-
+    
+    point_sound.play()
     reset_ball()
 
 def animate_ball():
@@ -30,6 +32,7 @@ def animate_ball():
     # detectar colicion con los borders de la pantalla de juego.
     if ball.bottom >= screen_height or ball.top <= 0:
         ball_speed_y *= -1
+        wall_sound.play()
 
     if ball.right >= screen_width:
         point_won("cpu")
@@ -40,6 +43,7 @@ def animate_ball():
     # detecta la colision de la pelota con el pad.
     if ball.colliderect(player) or ball.colliderect(cpu):
         ball_speed_x *= -1
+        hit_sound.play()
 
 def animate_player():
     player.y += player_speed
@@ -118,6 +122,14 @@ ball_color = (255, 255, 0)  # Amarillo neón
 player_color = (191, 0, 255) # Púrpura neón
 cpu_color = (48, 213, 200) # Turquesa neón
 score_font = pygame.font.Font("./Jersey10-Regular.ttf", 140)
+
+# Carga de sonidos
+hit_sound = pygame.mixer.Sound("./hit.wav")
+hit_sound.set_volume(0.5)
+point_sound = pygame.mixer.Sound("./point.wav")
+point_sound.set_volume(0.5)
+wall_sound = pygame.mixer.Sound("./wall.wav")
+wall_sound.set_volume(0.1)
 
 # velocidad en cada eje
 ball_speed_x = 8
