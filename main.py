@@ -53,6 +53,11 @@ def animate_cpu():
     global cpu_speed
     cpu.y += cpu_speed
 
+    ## probabilidad de error enter 0 y 1.
+    error_chance = random.random() 
+    if error_chance > 0.5:
+        return
+
     if ball.centery <= cpu.centery - 10:
         cpu_speed = -8
     if ball.centery >= cpu.centery + 10:
