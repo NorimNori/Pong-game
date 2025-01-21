@@ -76,6 +76,25 @@ def draw_dotted_line(surface, color, start_pos, end_pos, width, dash_length=10):
         for y in range(y1, y2, dash_length * 2):
             pygame.draw.line(surface, color, (x1, y), (x1, y + dash_length), width)
 
+def increase_speed():
+    global ball_speed_x, ball_speed_y, cpu_speed, last_speed_update
+    
+    ## Tiempo actual en milisegundos
+    current_time = pygame.time.get_ticks()
+    if current_time - last_speed_update >= speed_increment_interval:
+        ## Actualiza el tiempo del último incremento
+        last_speed_update = current_time
+        
+        ## Incrementa la velocidad de la pelota
+        if abs(ball_speed_x) < max_ball_speed:
+            ball_speed_x += 1 if ball_speed_x > 0 else -1
+        if abs(ball_speed_y) < max_ball_speed:
+            ball_speed_y += 1 if ball_speed_y > 0 else -1
+        
+        ## Incrementa la velocidad del CPU
+        if abs(cpu_speed) < max_cpu_speed:
+            cpu_speed += 1 if cpu_speed > 0 else -1
+
 # Configuracion de la pantalla.
 screen_width = 1280
 screen_height = 800
@@ -104,6 +123,12 @@ ball_speed_y = 8
 player_speed = 0
 cpu_speed = 6
 
+# velocidad constrolada
+max_ball_speed = 16
+max_cpu_speed = 12
+speed_increment_interval = 5000
+last_speed_update = 0
+
 cpu_points, player_points = 0, 0
 
 while True:
@@ -128,6 +153,7 @@ while True:
     animate_ball()
     animate_player()
     animate_cpu()
+    increase_speed()
 
     # Dibujar los ojetos del juego.
     ## 1. screen: superficie donde queremos dibujar el objeto.
