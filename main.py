@@ -71,34 +71,27 @@ def draw_dotted_line(surface, color, start_pos, end_pos, width, dash_length=10):
         for y in range(y1, y2, dash_length * 2):
             pygame.draw.line(surface, color, (x1, y), (x1, y + dash_length), width)
 
-# establecer tamaño de la pantalla de juego.
+# Configuracion de la pantalla.
 screen_width = 1280
 screen_height = 800
-
 screen = pygame.display.set_mode((screen_width, screen_height))
-# titulo que aparece en la ventana del juego.
+## titulo que aparece en la ventana del juego.
 pygame.display.set_caption("Pong Pong Wars!!")
-
-# inicializamos el reloj para controlar la velocidad del bucle principal.
+## inicializamos el reloj para controlar la velocidad del bucle principal.
 clock = pygame.time.Clock()
 
-# cuadrado de 30x30 px. 
-            #     (x, y, width, height)
+# Elementos del juego.
+## cuadrado de 30x30px (x, y, width, height)
 ball = pygame.Rect(0,0,30,30)
-# centramos la pelota en la pantalla utilizando las dimensiones
-# ball.center define el centro del rectángulo en una tupla (x, y)
-ball.center = (screen_width/2, screen_height/2)
-ball_color = (255, 255, 0)  # Amarillo neón
-
-cpu = pygame.Rect(10, screen_height / 2 - 70, 20, 140)
-# ubicamos el cpu a mitad del eje y.
-cpu.centery = screen_height/2
-cpu_color = (48, 213, 200) # Turquesa neón
-
 player = pygame.Rect(screen_width, screen_height / 2 - 70, 20, 140)
-# ubicamos el jugador al centro de la orilla derecha de la ventana.
 player.midright = (screen_width - 10, screen_height/2)
+cpu = pygame.Rect(10, screen_height / 2 - 70, 20, 140)
+
+# Colores y fuentes
+ball_color = (255, 255, 0)  # Amarillo neón
 player_color = (191, 0, 255) # Púrpura neón
+cpu_color = (48, 213, 200) # Turquesa neón
+score_font = pygame.font.Font("./Jersey10-Regular.ttf", 140)
 
 # velocidad en cada eje
 ball_speed_x = 8
@@ -108,7 +101,6 @@ cpu_speed = 6
 
 cpu_points, player_points = 0, 0
 
-score_font = pygame.font.Font("./Jersey10-Regular.ttf", 140)
 while True:
     # gestión de eventos.
     for event in pygame.event.get():
@@ -132,28 +124,25 @@ while True:
     animate_player()
     animate_cpu()
 
-    # dibujar los ojetos del juego.
-    # 1. screen: superficie donde queremos dibujar el objeto.
-    # 2. ball_color: es el color que lre queremos dar al objeto.
-    # 3. ball: circulo que queremos dibujar.
+    # Dibujar los ojetos del juego.
+    ## 1. screen: superficie donde queremos dibujar el objeto.
+    ## 2. ball_color: es el color que lre queremos dar al objeto.
+    ## 3. ball: circulo que queremos dibujar.
     
     # evita que la pelota deje una "estela" al moverse.
     screen.fill('black')
-
-    cpu_score_surface = score_font.render(str(cpu_points), True, cpu_color)
-    player_score_surface = score_font.render(str(player_points), True, player_color)
-    screen.blit(cpu_score_surface, (screen_width/4, 20))
-    screen.blit(player_score_surface, (3*screen_width/4, 20))
-    
-
     pygame.draw.rect(screen, ball_color, ball)
     pygame.draw.rect(screen, cpu_color, cpu)
     pygame.draw.rect(screen, player_color, player)
     # Dibujar la línea punteada en el centro del campo
     draw_dotted_line(screen, "white", (screen_width // 2, 0), (screen_width // 2, screen_height), 5)
 
-
-
+    # Puntuaciones del juego.
+    cpu_score_surface = score_font.render(str(cpu_points), True, cpu_color)
+    player_score_surface = score_font.render(str(player_points), True, player_color)
+    screen.blit(cpu_score_surface, (screen_width/4, 20))
+    screen.blit(player_score_surface, (3*screen_width/4, 20))
+    
     # actualizamos la pantalla.
     pygame.display.update()
     # limitamos la cantidad de cuadros por segundo (FPS) a 60.
