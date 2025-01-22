@@ -4,24 +4,30 @@ import pygame, sys, random
 pygame.init()
 pygame.mixer.init()
 
-def reset_ball():
+def reset_ball(direction):
     global ball_speed_x, ball_speed_y
-    ball.x = screen_width/2 - 10
-    ## reseteo aleatorio de la pelota en el eje y
+    ball.x = screen_width / 2 - ball.width / 2
+    ## reseteo aleatorio de la pelota en el eje y.
     ball.y = random.randint(0, screen_height - ball.height)
-    ball_speed_x *= random.choice([-1, 1])
-    ball_speed_y *= random.choice([-1, 1])
+    ## direccion horizontal segun quien anoto.
+    ## abs() devuelve el valor absoluto de un numero.
+    ball_speed_x = abs(ball_speed_x) * direction
+    ## direccion vertical aleatoria.
+    ball_speed_y = random.choice([-1, 1]) * abs(ball_speed_y)
 
 def point_won(winner):
     global cpu_points, player_points
 
     if winner == "cpu":
         cpu_points += 1
+        reset_ball(-1)
+
     if winner == "player":
-        player_points += 1 
+        player_points += 1
+        reset_ball(1) 
     
     point_sound.play()
-    reset_ball()
+    
 
 def animate_ball():
     global ball_speed_x, ball_speed_y
@@ -60,7 +66,7 @@ def animate_cpu():
 
     ## probabilidad de error enter 0 y 1.
     error_chance = random.random() 
-    if error_chance > 0.5:
+    if error_chance > 0.9:
         return
 
     if ball.centery <= cpu.centery - 10:
@@ -138,9 +144,9 @@ player_speed = 0
 cpu_speed = 6
 
 # velocidad constrolada
-max_ball_speed = 16
-max_cpu_speed = 12
-speed_increment_interval = 5000
+max_ball_speed = 14
+max_cpu_speed = 18
+speed_increment_interval = 10000
 last_speed_update = 0
 
 cpu_points, player_points = 0, 0
@@ -155,9 +161,9 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                player_speed = -8
+                player_speed = -18
             if event.key == pygame.K_DOWN:
-                player_speed = 8
+                player_speed = 18
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player_speed = 0
